@@ -1,0 +1,27 @@
+{
+  "name": "sau-yul-tech-backend",
+  "version": "2.0.0",
+  "description": "Sau Yul-Tech - Servidor Central y Sincronización Firebase RTDB",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "sau-yul-tech",
+    "iot",
+    "esp32",
+    "max30205",
+    "firebase",
+    "cattle",
+    "telemetry"
+  ],
+  "author": "Sau Yul-Tech",
+  "license": "MIT"
+}

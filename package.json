@@ -1,0 +1,34 @@
+{
+  "name": "sou-youl-tech",
+  "version": "2.0.0",
+  "description": "Sau Yul-Tech - Plataforma Oficial de Monitoreo Pecuario IoT, Cartografía Satelital HD & Eco-Mercado",
+  "main": "backend/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "node build.js",
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "deploy:hosting": "firebase deploy --only hosting:souyoultech"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "firebase": "^11.3.1"
+  },
+  "devDependencies": {
+    "firebase-tools": "^13.31.0"
+  },
+  "keywords": [
+    "iot",
+    "agriculture",
+    "cattle",
+    "livestock",
+    "esp32",
+    "max30205",
+    "firebase",
+    "maps"
+  ],
+  "author": "Sau Yul-Tech",
+  "license": "MIT"
+}

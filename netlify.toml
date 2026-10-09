@@ -1,0 +1,38 @@
+# =========================================================================
+# CONFIGURACIÓN OFICIAL DE DESPLIEGUE EN NETLIFY (SAU YUL-TECH)
+# =========================================================================
+
+[build]
+  publish = "dist"
+  functions = "netlify/functions"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# 1. Redirigir llamadas /api/* a la función Serverless de Netlify
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# 2. Redirección SPA para Single Page App
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# 3. Encabezados de Seguridad & Políticas de Caché
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"

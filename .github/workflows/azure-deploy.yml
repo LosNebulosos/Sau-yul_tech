@@ -1,0 +1,55 @@
+name: CI/CD Despliegue Azure con Nginx
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: 'ecomercado-app' # Reemplazar con el nombre de tu Azure App Service
+  CONTAINER_REGISTRY: 'tudockerhub_o_acr' # Reemplazar con tu Azure Container Registry (ej: minegocio.azurecr.io)
+  IMAGE_NAME: 'ecomercado-nginx'
+
+jobs:
+  build-and-test:
+    name: Compilación y Pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js para Pruebas
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Ejecutar Suite de Validación
+        run: node test_suite.js
+
+      - name: Construir Imagen Docker con Nginx
+        run: |
+          docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} .
+          docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.IMAGE_NAME }}:latest
+
+  # DESCOMENTAR ESTA SECCIÓN CUANDO TENGAS CONFIGURADO TU AZURE CREDENTIALS EN GITHUB SECRETS
+  # deploy-to-azure:
+  #   name: Despliegue en Azure Web App (Contenedor)
+  #   needs: build-and-test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Descargar Código
+  #       uses: actions/checkout@v4
+  #
+  #     - name: Iniciar Sesión en Azure
+  #       uses: azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #
+  #     - name: Desplegar en Azure Web App for Containers
+  #       uses: azure/webapps-deploy@v3
+  #       with:
+  #         app-name: ${{ env.AZURE_WEBAPP_NAME }}
+  #         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+  #         images: '${{ env.CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}'
